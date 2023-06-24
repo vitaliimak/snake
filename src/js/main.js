@@ -106,11 +106,13 @@ function drawSnake() {
     drawApple();
     
     if (collision(snake[i], BOARD)) {
-      const item = document.createElement("p");
-      item.innerText = score.innerText;
-      score.innerText = "0";
-      speed.innerText = "1";
-      leaderBoard.appendChild(item);
+      if (Number.parseInt(score.innerText) !== 0) {
+        const item = document.createElement("p");
+        item.innerText = score.innerText;
+        score.innerText = "0";
+        speed.innerText = "1";
+        leaderBoard.appendChild(item);
+      }
       console.error("Error!");
       clearInterval(interval);
       return;
