@@ -1,6 +1,7 @@
 const canvas = document.getElementById("board");
 const score = document.getElementById("score");
 const speed = document.getElementById("speed");
+const leaderBoard = document.getElementById("leaderBoard");
 const ctx = canvas.getContext("2d");
 const SIZE = 25;
 const BOARD = canvas.width;
@@ -13,7 +14,7 @@ const apple = {
   x: randomCoordinate(),
   y: randomCoordinate(),
 }
-const snake = [{
+let snake = [{
   x: BOARD / 2,
   y: BOARD / 2,
 }];
@@ -105,6 +106,11 @@ function drawSnake() {
     drawApple();
     
     if (collision(snake[i], BOARD)) {
+      const item = document.createElement("p");
+      item.innerText = score.innerText;
+      score.innerText = "0";
+      speed.innerText = "1";
+      leaderBoard.appendChild(item);
       console.error("Error!");
       clearInterval(interval);
       return;
@@ -144,6 +150,19 @@ function randomCoordinate() {
 function drawSnakeBox(box) {
   ctx.fillStyle = "green";
   ctx.fillRect(box.x , box.y, SIZE, SIZE);
+}
+
+function restart() {
+  clearInterval(interval);
+  snake = [{
+    x: BOARD / 2,
+    y: BOARD / 2,
+  }];
+  score.innerText = "0";
+  speed.innerText = "1";
+  direction = "right";
+  moveApple();
+  interval = setInterval(drawSnake, calculateTimeInterval(speed));
 }
 
 main();
