@@ -141,8 +141,22 @@ function drawApple() {
 }
 
 function moveApple() {
-  apple.x = randomCoordinate();
-  apple.y = randomCoordinate();
+  let x = randomCoordinate();
+  let y = randomCoordinate();
+  let flag = true;
+  while (flag) {
+    for (const box of snake) {
+      flag = false;
+      if (box.x === x && box.y === y) {
+        x = randomCoordinate();
+        y = randomCoordinate();
+        flag = true;
+        break;
+      }
+    }
+  }
+  apple.x = x;
+  apple.y = y;
 }
 
 function randomCoordinate() {
