@@ -68,15 +68,24 @@ function changeDirection(event) {
 }
 
 function collision(box, limit) {
-  // for (let i = 1; i < snake.length; i++) {
-  //   if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
-  //     return true;
-  //   }
-  // }
   return (box.x < 0 || box.y < 0) || (box.x + SIZE > limit || box.y + SIZE > limit);
 }
 
 function drawSnake() {
+  for (let i = 1; i < snake.length; i++) {
+    if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+      if (Number.parseInt(score.innerText) !== 0) {
+        const item = document.createElement("p");
+        item.innerText = score.innerText;
+        score.innerText = "0";
+        speed.innerText = "1";
+        leaderBoard.appendChild(item);
+      }
+      console.error("Error!");
+      clearInterval(interval);
+      return;
+    }
+  }
   ctx.clearRect(0, 0, BOARD, BOARD);
   let x = snake[0].x;
   let y = snake[0].y;
@@ -127,7 +136,7 @@ function eatApple(apple, snakeBox) {
     snake.push({x: apple.x, y: apple.y});
     moveApple();
     intervalTime = calculateTimeInterval();
-    if (score.innerText % 5 === 0 && intervalTime > 70) {
+    if (score.innerText % 10 === 0 && intervalTime > 70) {
       speed.innerText = Number.parseInt(speed.innerText) + 1;
       clearInterval(interval);
       interval = setInterval(drawSnake, intervalTime);
